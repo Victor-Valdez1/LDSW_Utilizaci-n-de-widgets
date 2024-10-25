@@ -7,16 +7,15 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
+      title: 'Grupo Javid',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Welcome to Flutter'),
+      home: const MyHomePage(title: 'Grupo Javid'),
     );
   }
 }
@@ -31,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  bool _obscurePassword = true; // Controla la visibilidad de la contraseña
 
   @override
   Widget build(BuildContext context) {
@@ -42,73 +41,98 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            const SizedBox(height: 20),
+            // Aquí se agrega la imagen
+            const Image(
+              image: AssetImage('img/JavidNoBG.webp'),
+              width: 200,
+              height: 200,
+              fit: BoxFit.contain,
+            ),
             const Text(
-              'Hello Worlds',
+              'Grupo Javid',
               style: TextStyle(
-                fontSize: 40, 
-                fontWeight: FontWeight.bold,  
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            Text(
-              '',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Row: Item 1"),
-                SizedBox(width: 10),
-                Text("Item 2"),
-                SizedBox(width: 10),
-                Text("Item 3"),
-              ],
-            ),
-            const SizedBox(height: 20), 
-            const Column(
+            const SizedBox(height: 20), // Espaciado entre widgets
+
+            // Aquí está el nuevo Column
+            Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("Column: Item A"),
-                SizedBox(height: 10), 
-                Text("Item B"),
-                SizedBox(height: 10),
-                Text("Item C"),
-              ],
-            ),
-            const SizedBox(height: 20), 
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.blue.shade100,
-                ),
-                Container(
-                  width: 150,
-                  height: 150,
-                  color: Colors.blue.shade300,
-                ),
-                Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.blue.shade500,
-                ),
-                const Text(
-                  'Stacked Text',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                const Text("RFC"),
+                const SizedBox(height: 10), // Espaciado entre elementos
+                // Contenedor para limitar el ancho del TextField
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8, // Ancho del 80% del contenedor padre
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Ingrese su RFC aquí',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 ),
+                const SizedBox(height: 10),
+                const Text("Contraseña"),
+                const SizedBox(height: 10),
+                // Contenedor para limitar el ancho del TextField de contraseña
+                PasswordField(
+                  obscureText: _obscurePassword,
+                  onToggleVisibility: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword; // Alternar visibilidad
+                    });
+                  },
+                ),
               ],
+            ),
+            const SizedBox(height: 20), // Espaciado entre las columnas y el botón
+
+            // Botón "Iniciar sesión"
+            ElevatedButton(
+              onPressed: () {
+               
+              },
+              child: const Text('Iniciar sesión'),
             ),
           ],
         ),
       ),
-      
+    );
+  }
+}
+
+class PasswordField extends StatelessWidget {
+  final bool obscureText;
+  final VoidCallback onToggleVisibility;
+
+  const PasswordField({
+    super.key,
+    required this.obscureText,
+    required this.onToggleVisibility,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.8, // Ancho del 80% del contenedor padre
+      child: TextField(
+        obscureText: obscureText, // Ocultar texto en el campo de contraseña
+        decoration: InputDecoration(
+          labelText: 'Ingrese su contraseña aquí',
+          border: OutlineInputBorder(),
+          suffixIcon: IconButton(
+            icon: Icon(
+              obscureText ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: onToggleVisibility, // Alternar visibilidad
+          ),
+        ),
+      ),
     );
   }
 }
